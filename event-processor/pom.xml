@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>json-resources-spike</artifactId>
+        <groupId>uk.gov.justice.services</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>handler</artifactId>
+
+    <properties>
+        <framework.version>2.0.0</framework.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>uk.gov.justice.services</groupId>
+            <artifactId>messaging-adapter-core</artifactId>
+            <version>${framework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>uk.gov.justice.services</groupId>
+                                    <artifactId>domain</artifactId>
+                                    <version>${project.version}</version>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
+                                    <includes>**/*.json</includes>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>uk.gov.justice.maven</groupId>
+                <artifactId>raml-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-adapters</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <generatorName>
+                                uk.gov.justice.raml.jms.core.JmsEndpointGenerator
+                            </generatorName>
+                            <sourceDirectory>${basedir}/src/raml</sourceDirectory>
+                            <outputDirectory>${project.build.directory}/generated-sources
+                            </outputDirectory>
+                            <basePackageName>uk.gov.justice.api</basePackageName>
+                            <generatorProperties>
+                                <serviceComponent>EVENT_PROCESSOR
+                                </serviceComponent>
+                            </generatorProperties>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+
+                    <dependency>
+                        <groupId>javax</groupId>
+                        <artifactId>javaee-api</artifactId>
+                        <version>7.0</version>
+                        <scope>runtime</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>uk.gov.justice.services</groupId>
+                        <artifactId>messaging-adapter-generator</artifactId>
+                        <version>${framework.version}</version>
+                    </dependency>
+                </dependencies>
+
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
