@@ -13,6 +13,7 @@
 
     <properties>
         <framework.version>2.0.0</framework.version>
+        <cpp.service-component>EVENT_PROCESSOR</cpp.service-component>
     </properties>
 
     <dependencies>
@@ -48,8 +49,8 @@
                                     <groupId>uk.gov.justice.services</groupId>
                                     <artifactId>domain</artifactId>
                                     <version>${project.version}</version>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${basedir}/src/raml/json/schema</outputDirectory>
                                     <includes>**/*.json</includes>
                                 </artifactItem>
                             </artifactItems>
@@ -84,7 +85,6 @@
                     </execution>
                 </executions>
                 <dependencies>
-
                     <dependency>
                         <groupId>javax</groupId>
                         <artifactId>javaee-api</artifactId>
@@ -98,10 +98,7 @@
                         <version>${framework.version}</version>
                     </dependency>
                 </dependencies>
-
             </plugin>
         </plugins>
     </build>
-
-
 </project>

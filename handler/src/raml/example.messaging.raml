@@ -1,0 +1,10 @@
+#%RAML 0.8
+title: RAML for events listened by stagingtfl event processor
+baseUri: message://event/processor/message/stagingtfl
+
+/stagingtfl.event:
+  post:
+    body:
+        application/vnd.stagingtfl.events.charged-cases-csv-files-upload-accepted+json:
+            schema: !include json/schema/stagingtfl.events.charged-cases-csv-files-upload-accepted.json
+            example: !include example-json.json

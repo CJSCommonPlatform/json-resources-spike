@@ -21,7 +21,8 @@
 
     <modules>
         <module>domain</module>
-        <module>event-processor</module>
+        <module>handler</module>
+        <module>common-schema</module>
     </modules>
 
     <dependencyManagement>
